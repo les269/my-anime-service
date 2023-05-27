@@ -21,6 +21,11 @@ public class Result<T> implements Serializable {
         this.message = message;
     }
 
+    public Result(String type, String message, T data) {
+        this.type = type;
+        this.message = message;
+        this.data = data;
+    }
 
     public String getType() {
         return type;

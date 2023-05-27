@@ -6,7 +6,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-22T01:58:43+0800",
+    date = "2023-05-25T20:38:11+0800",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.17 (Oracle Corporation)"
 )
 public class AnimeInfoConvertImpl implements AnimeInfoConvert {

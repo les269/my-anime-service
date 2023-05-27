@@ -50,7 +50,7 @@ public interface AnimeInfoConvert {
         return Arrays.asList(str.split(","));
     }
 
-    default List<Date> putDate(Timestamp startDate, Timestamp endDate) {
+    default List<Date> putDate(Date startDate, Date endDate) {
         if (startDate == null) {
             return new ArrayList<>();
         }

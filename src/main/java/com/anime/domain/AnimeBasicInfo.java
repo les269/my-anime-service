@@ -15,8 +15,8 @@ public class AnimeBasicInfo implements Serializable {
     private String chineseName;
     private List<String> author;
     private List<String> studio;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Date startDate;
+    private Date endDate;
     private List<String> category;
     private Integer episode;
     private String wikiUrl;
@@ -57,19 +57,19 @@ public class AnimeBasicInfo implements Serializable {
         this.studio = studio;
     }
 
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
