@@ -20,5 +20,5 @@ spring:
           lob:
             non_contextual_creation: true
 sqlite:
-  url: jdbc:sqlite:home/amine.db
+  url: jdbc:sqlite:/home/amine.db
   driverClassName: org.sqlite.JDBC
