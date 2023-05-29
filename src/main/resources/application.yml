@@ -18,5 +18,5 @@ spring:
           lob:
             non_contextual_creation: true
 sqlite:
-  url: jdbc:sqlite:src/main/resources/amine.db
+  url: jdbc:sqlite:src/main/resources/anime.db
   driverClassName: org.sqlite.JDBC
