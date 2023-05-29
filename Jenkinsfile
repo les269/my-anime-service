@@ -8,6 +8,12 @@ pipeline {
 
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage('init') {
             steps{
                 sh  'mvn clean install -Pdocker'
