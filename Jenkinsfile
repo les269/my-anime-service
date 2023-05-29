@@ -8,6 +8,12 @@ pipeline {
 
 
     stages {
+        stage('Checkout') {
+            steps {
+                // 檢查源碼庫到 workspace
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/les269/my-repo.git']]])
+            }
+        }
         stage('init') {
             steps{
                 sh  'mvn clean install -Pdocker'
