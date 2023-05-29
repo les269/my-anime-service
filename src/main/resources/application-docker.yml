@@ -1,0 +1,24 @@
+server:
+  servlet:
+    context-path: /my-anime-service
+spring:
+  profiles:
+    active: docker
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: com.anime.configure.SQLiteDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+sqlite:
+  url: jdbc:sqlite:home/amine.db
+  driverClassName: org.sqlite.JDBC
