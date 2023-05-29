@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'openjdk:11.0.11-jre-slim'
+            image 'openjdk:11'
         }
     }
 
@@ -12,13 +12,13 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
+            withMaven(maven: 'mvn') {
                 sh 'mvn clean package'
             }
         }
 
         stage('Test') {
-            steps {
+            withMaven(maven: 'mvn') {
                // 執行測試
                sh 'mvn test'
             }
