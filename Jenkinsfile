@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
     agent {
         docker {
             image 'openjdk:11.0.11-jre-slim'
@@ -7,7 +7,9 @@ pipeline{
 
     stages {
         stage('Build') {
-            sh 'mvn clean package'
+            steps {
+                sh 'mvn clean package'
+            }
         }
 
         stage('Test') {
