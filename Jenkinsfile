@@ -10,11 +10,15 @@ pipeline {
         skipDefaultCheckout(true)
     }
 
+    tools {
+            maven 'Maven'
+        }
+
     stages {
         stage('Build') {
-            steps {
-                withMaven(maven: 'mvn') {
-                   sh 'mvn clean package'
+            steps{
+                withMaven  {
+                    sh  'mvn clean compile'
                 }
             }
 
@@ -22,9 +26,9 @@ pipeline {
 
         stage('Test') {
             steps {
-                withMaven(maven: 'mvn') {
+                withMaven {
                    // 執行測試
-                   sh 'mvn test'
+                   sh "mvn test"
                 }
             }
 
