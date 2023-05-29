@@ -1,43 +1,29 @@
 pipeline {
-    agent {
-        docker {
-            image 'openjdk:11'
-        }
-    }
+    agent any
 
     options {
         // This is required if you want to clean before build
         skipDefaultCheckout(true)
     }
 
-    tools {
-            maven 'Maven'
-        }
 
     stages {
         stage('Build') {
             steps{
-                withMaven  {
-                    sh  'mvn clean compile'
-                }
+                sh  'mvn clean compile'
             }
-
         }
 
         stage('Test') {
             steps {
-                withMaven {
-                   // 執行測試
-                   sh "mvn test"
-                }
+                sh "mvn test"
             }
-
         }
         stage('Deploy') {
             steps {
                 // 部署應用程式，這裡假設使用 Docker 部署到容器中
-                sh 'docker build -t myAnime .'
-                sh 'docker run -d -p 8091:8080 myAnime'
+                sh 'docker build -t my-anime .'
+                sh 'docker run -d -p 8091:8080 my-anime'
             }
         }
     }
