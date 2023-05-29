@@ -12,16 +12,22 @@ pipeline {
 
     stages {
         stage('Build') {
-            withMaven(maven: 'mvn') {
-                sh 'mvn clean package'
+            steps {
+                withMaven(maven: 'mvn') {
+                   sh 'mvn clean package'
+                }
             }
+
         }
 
         stage('Test') {
-            withMaven(maven: 'mvn') {
-               // 執行測試
-               sh 'mvn test'
+            steps {
+                withMaven(maven: 'mvn') {
+                   // 執行測試
+                   sh 'mvn test'
+                }
             }
+
         }
         stage('Deploy') {
             steps {
