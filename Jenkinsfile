@@ -8,9 +8,9 @@ pipeline {
 
 
     stages {
-        stage('Build') {
+        stage('init') {
             steps{
-                sh  'mvn clean compile'
+                sh  'mvn clean install'
             }
         }
 
