@@ -21,11 +21,12 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // 部署應用程式，這裡假設使用 Docker 部署到容器中
-                sh 'docker rm my-anime-container'
-                sh 'docker image rm my-anime'
-                sh 'docker build -t my-anime .'
-                sh 'docker run -d -p 8091:8080 my-anime --name my-anime-container'
+                script {
+                    def rmContainer = sh script: 'docker rm my-anime-container', returnStatus: true
+                    def rmImage = sh script: 'docker image rm my-anime', returnStatus: true
+                    sh 'docker build -t my-anime .'
+                    sh 'docker run -d -p 8091:8080 my-anime --name my-anime-container'
+                }
             }
         }
     }
