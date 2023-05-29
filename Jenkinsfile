@@ -8,8 +8,6 @@ pipeline {
 
 
     stages {
-
-
         stage('init') {
             steps{
                 sh  'mvn clean install -Pdocker'
