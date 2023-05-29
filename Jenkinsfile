@@ -8,11 +8,7 @@ pipeline {
 
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+
 
         stage('init') {
             steps{
@@ -33,6 +29,12 @@ pipeline {
                     sh 'docker build -t my-anime .'
                     sh 'docker run -d -p 8091:8080 --name my-anime-container my-anime'
                 }
+            }
+        }
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
             }
         }
     }
