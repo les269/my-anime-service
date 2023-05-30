@@ -77,7 +77,7 @@ public class AnimeInfoService {
 
     public Result<Map<String, Boolean>> getAllWatched() {
         Result<Map<String, Boolean>> result = new Result(SUCCESS, "", new HashMap<>());
-        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_WATCH_PROGRESS);
+        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_WATCHED);
         if (animeDataList.isEmpty()) {
             result.setData(new HashMap<>());
             return result;
