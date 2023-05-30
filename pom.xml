@@ -22,12 +22,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <profiles>
-
-        <profile>
-            <id>docker</id>
-        </profile>
-    </profiles>
 
     <build>
         <finalName>${project.artifactId}</finalName>

@@ -28,7 +28,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def rmContainer = sh script: 'docker rm my-anime-container', returnStatus: true
+                    def rmContainer = sh script: 'docker container stop my-anime-container', returnStatus: true
+                    def rmContainer = sh script: 'docker container rm my-anime-container', returnStatus: true
                     def rmImage = sh script: 'docker image rm my-anime', returnStatus: true
                     sh 'docker build -t my-anime .'
                     sh 'docker run -d -p 8091:8080 --name my-anime-container my-anime'
