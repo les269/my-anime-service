@@ -16,7 +16,7 @@ pipeline {
         }
         stage('init') {
             steps{
-                sh  'mvn clean install -Pdocker'
+                sh  'mvn clean install'
             }
         }
 

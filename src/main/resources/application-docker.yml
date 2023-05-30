@@ -2,8 +2,6 @@ server:
   servlet:
     context-path: /my-anime-service
 spring:
-  profiles:
-    active: docker
   datasource:
     driver-class-name: org.sqlite.JDBC
   jpa:
