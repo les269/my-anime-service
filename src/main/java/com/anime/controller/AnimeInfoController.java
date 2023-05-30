@@ -35,11 +35,36 @@ public class AnimeInfoController {
 
     @PostMapping("/watched")
     public Result<Boolean> watched(@RequestBody AnimeDataRequest animeDataRequest){
-        return animeInfoService.setWatched(animeDataRequest.getOfficeName(),animeDataRequest.isWatched());
+        return animeInfoService.setWatched(animeDataRequest.getOfficialName(),animeDataRequest.isWatched());
     }
 
     @GetMapping("/allWatched")
     public Result<Map<String, Boolean>> getAllWatched(){
         return animeInfoService.getAllWatched();
+    }
+
+    @PostMapping("/deleteAnime")
+    public Result<Boolean> deleteAnime(@RequestBody AnimeBasicInfo animeBasicInfo){
+        return animeInfoService.deleteAnime(animeBasicInfo.getOfficialName());
+    }
+
+    @PostMapping("/watchProgress")
+    public Result<Boolean> watchProgress(@RequestBody AnimeDataRequest animeDataRequest){
+        return animeInfoService.watchProgress(animeDataRequest.getOfficialName(), animeDataRequest.getValue());
+    }
+
+    @GetMapping("/allWatchProgress")
+    public Result<Map<String, String>> getAllWatchProgress(){
+        return animeInfoService.getAllWatchProgress();
+    }
+
+    @PostMapping("/message")
+    public Result<Boolean> message(@RequestBody AnimeDataRequest animeDataRequest){
+        return animeInfoService.message(animeDataRequest.getOfficialName(), animeDataRequest.getValue());
+    }
+
+    @GetMapping("/allMessage")
+    public Result<Map<String, String>> getAllMessage(){
+        return animeInfoService.getAllMessage();
     }
 }

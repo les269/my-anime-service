@@ -1,17 +1,17 @@
 package com.anime.domain;
 
 public class AnimeDataRequest {
-    private String officeName;
+    private String officialName;
     private String type;
     private String value;
     private boolean watched;
 
-    public String getOfficeName() {
-        return officeName;
+    public String getOfficialName() {
+        return officialName;
     }
 
-    public void setOfficeName(String officeName) {
-        this.officeName = officeName;
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
     }
 
     public String getType() {

@@ -77,12 +77,67 @@ public class AnimeInfoService {
 
     public Result<Map<String, Boolean>> getAllWatched() {
         Result<Map<String, Boolean>> result = new Result(SUCCESS, "", new HashMap<>());
-        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_WATCHED);
+        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_WATCH_PROGRESS);
         if (animeDataList.isEmpty()) {
             result.setData(new HashMap<>());
             return result;
         }
         result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, (animeData -> "Y".equals(animeData.getValue())))));
+        return result;
+    }
+
+    public Result<Boolean> deleteAnime(String officialName){
+        animeInfoRepository.deleteById(officialName);
+        return new Result<>(SUCCESS,"", true);
+    }
+
+    public Result<Boolean> watchProgress(String name, String value) {
+        Result<Boolean> result = new Result(Const.SUCCESS, "", true);
+        if (StringUtil.isBlank(name)) {
+            return new Result(Const.FAIL, "", false);
+        }
+        AnimeData animeData = new AnimeData();
+        animeData.setOfficeName(name);
+        animeData.setCategory(DATA_CATEGORY_FIXED);
+        animeData.setType(DATA_TYPE_WATCH_PROGRESS);
+        animeData.setValue(value);
+        animeDataRepository.save(animeData);
+        return result;
+    }
+
+    public Result<Map<String, String>> getAllWatchProgress() {
+        Result<Map<String, String>> result = new Result(SUCCESS, "", new HashMap<>());
+        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_WATCH_PROGRESS);
+        if (animeDataList.isEmpty()) {
+            result.setData(new HashMap<>());
+            return result;
+        }
+        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, AnimeData::getValue)));
+        return result;
+    }
+
+    public Result<Boolean> message(String name, String value) {
+        Result<Boolean> result = new Result(Const.SUCCESS, "", true);
+        if (StringUtil.isBlank(name)) {
+            return new Result(Const.FAIL, "", false);
+        }
+        AnimeData animeData = new AnimeData();
+        animeData.setOfficeName(name);
+        animeData.setCategory(DATA_CATEGORY_FIXED);
+        animeData.setType(DATA_TYPE_MESSAGE);
+        animeData.setValue(value);
+        animeDataRepository.save(animeData);
+        return result;
+    }
+
+    public Result<Map<String, String>> getAllMessage() {
+        Result<Map<String, String>> result = new Result(SUCCESS, "", new HashMap<>());
+        List<AnimeData> animeDataList = animeDataRepository.findByCategoryAndType(DATA_CATEGORY_FIXED, DATA_TYPE_MESSAGE);
+        if (animeDataList.isEmpty()) {
+            result.setData(new HashMap<>());
+            return result;
+        }
+        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, AnimeData::getValue)));
         return result;
     }
 }

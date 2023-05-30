@@ -9,4 +9,7 @@ public class Const {
     public final static String DATA_CATEGORY_TAG = "tag";
 
     public final static String DATA_TYPE_WATCHED = "watched";
+    public final static String DATA_TYPE_WATCH_PROGRESS = "watchProgress";
+
+    public final static String DATA_TYPE_MESSAGE = "message";
 }
