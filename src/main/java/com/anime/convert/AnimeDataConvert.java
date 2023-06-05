@@ -13,5 +13,5 @@ public interface AnimeDataConvert {
 
     @Mappings({
     })
-    AnimeDataResponse toDomain(AnimeData entity);
+        AnimeDataResponse toDomain(AnimeData entity);
 }

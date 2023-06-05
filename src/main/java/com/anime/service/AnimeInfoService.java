@@ -2,14 +2,19 @@ package com.anime.service;
 
 import com.anime.configure.Const;
 import com.anime.convert.AnimeInfoConvert;
+import com.anime.convert.AnimeTagConvert;
 import com.anime.domain.*;
 import com.anime.entity.AnimeData;
 import com.anime.entity.AnimeInfo;
+import com.anime.entity.AnimeTag;
 import com.anime.repository.AnimeDataRepository;
 import com.anime.repository.AnimeInfoRepository;
+import com.anime.repository.AnimeTagRepository;
 import com.anime.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +28,9 @@ public class AnimeInfoService {
 
     @Autowired
     private AnimeDataRepository animeDataRepository;
+
+    @Autowired
+    private AnimeTagRepository animeTagRepository;
 
     public Result update(AnimeBasicInfo animeBasicInfo) {
         Result result = new Result(Const.SUCCESS);
@@ -67,7 +75,7 @@ public class AnimeInfoService {
             return new Result(Const.FAIL, "", false);
         }
         AnimeData animeData = new AnimeData();
-        animeData.setOfficeName(name);
+        animeData.setOfficialName(name);
         animeData.setCategory(DATA_CATEGORY_FIXED);
         animeData.setType(DATA_TYPE_WATCHED);
         animeData.setValue(watched ? "Y" : "N");
@@ -82,13 +90,13 @@ public class AnimeInfoService {
             result.setData(new HashMap<>());
             return result;
         }
-        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, (animeData -> "Y".equals(animeData.getValue())))));
+        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficialName, (animeData -> "Y".equals(animeData.getValue())))));
         return result;
     }
 
-    public Result<Boolean> deleteAnime(String officialName){
+    public Result<Boolean> deleteAnime(String officialName) {
         animeInfoRepository.deleteById(officialName);
-        return new Result<>(SUCCESS,"", true);
+        return new Result<>(SUCCESS, "", true);
     }
 
     public Result<Boolean> watchProgress(String name, String value) {
@@ -97,7 +105,7 @@ public class AnimeInfoService {
             return new Result(Const.FAIL, "", false);
         }
         AnimeData animeData = new AnimeData();
-        animeData.setOfficeName(name);
+        animeData.setOfficialName(name);
         animeData.setCategory(DATA_CATEGORY_FIXED);
         animeData.setType(DATA_TYPE_WATCH_PROGRESS);
         animeData.setValue(value);
@@ -112,7 +120,7 @@ public class AnimeInfoService {
             result.setData(new HashMap<>());
             return result;
         }
-        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, AnimeData::getValue)));
+        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficialName, AnimeData::getValue)));
         return result;
     }
 
@@ -122,7 +130,7 @@ public class AnimeInfoService {
             return new Result(Const.FAIL, "", false);
         }
         AnimeData animeData = new AnimeData();
-        animeData.setOfficeName(name);
+        animeData.setOfficialName(name);
         animeData.setCategory(DATA_CATEGORY_FIXED);
         animeData.setType(DATA_TYPE_MESSAGE);
         animeData.setValue(value);
@@ -137,7 +145,53 @@ public class AnimeInfoService {
             result.setData(new HashMap<>());
             return result;
         }
-        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficeName, AnimeData::getValue)));
+        result.setData(animeDataList.stream().collect(Collectors.toMap(AnimeData::getOfficialName, AnimeData::getValue)));
+        return result;
+    }
+
+    public Result<List<AnimeTagTO>> getAllTags() {
+        return new Result<>(SUCCESS, "", AnimeTagConvert.INSTANCE.toDomainList(animeTagRepository.findAll()));
+    }
+
+    public Result<Boolean> deleteTag(String id) {
+        animeTagRepository.deleteById(id);
+        return new Result<>(SUCCESS, "", true);
+    }
+
+    public Result<Boolean> updateTag(AnimeTagTO animeTagTO) {
+        animeTagRepository.save(AnimeTagConvert.INSTANCE.toEntity(animeTagTO));
+        return new Result<>(SUCCESS, "", true);
+    }
+
+    @Transactional
+    public Result<Boolean> updateVideoTag(VideoTagRequest videoTagRequest) {
+        Result<Boolean> result = new Result<>(SUCCESS, "", true);
+        animeDataRepository.deleteByNameAndCategory(videoTagRequest.getOfficialName(), DATA_CATEGORY_TAG);
+        if (!CollectionUtils.isEmpty(videoTagRequest.getIdList())) {
+            List<AnimeData> entities = videoTagRequest.getIdList().stream().map(id -> {
+                AnimeData entity = new AnimeData();
+                entity.setOfficialName(videoTagRequest.getOfficialName());
+                entity.setCategory(DATA_CATEGORY_TAG);
+                entity.setType(id);
+                entity.setValue("Y");
+                return entity;
+            }).collect(Collectors.toList());
+            animeDataRepository.saveAll(entities);
+        }
+
+        return result;
+    }
+
+    public Result<Map<String, List<String>>> getAllVideoTags() {
+        Result<Map<String, List<String>>> result = new Result(SUCCESS, "", new HashMap<>());
+        List<AnimeData> animeDataList = animeDataRepository.findByCategory(DATA_CATEGORY_TAG);
+        if (animeDataList.isEmpty()) {
+            result.setData(new HashMap<>());
+            return result;
+        }
+        result.setData(animeDataList.stream().collect(
+                Collectors.groupingBy(AnimeData::getOfficialName,
+                        Collectors.mapping(AnimeData::getType, Collectors.toList()))));
         return result;
     }
 }
